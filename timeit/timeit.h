@@ -99,45 +99,45 @@ namespace timeit{
 		time_t time_number;
 		if(number<=0){
 			number = 1;
-            for(int index=0; index<15; index++){
-            	time_number = inner(code, number);
-            	if(time_number >= 1)
-            		break;
-            	number *= 10;
-            }
+			for(int index=0; index<15; index++){
+				time_number = inner(code, number);
+				if(time_number >= 1)
+					break;
+				number *= 10;
+			}
 		}
-        else
-            time_number =inner(code, number);
+		else
+			time_number =inner(code, number);
 
-        if(runs<=0){
-        	runs = 7;
-        	if(time_number > 3) runs = 5;
-        	if(time_number > 6) runs = 3;
-        	if(time_number > 10) runs = 1;
-        }
+		if(runs<=0){
+			runs = 7;
+			if(time_number > 3) runs = 5;
+			if(time_number > 6) runs = 3;
+			if(time_number > 10) runs = 1;
+		}
 
-        vector<double> all_runs;
-        if(runs==1)
-        	all_runs.push_back(time_number);
-        else
-        	all_runs = repeat(code, runs, number);
+		vector<double> all_runs;
+		if(runs==1)
+			all_runs.push_back(time_number);
+		else
+			all_runs = repeat(code, runs, number);
 
-        double mean=0, sd = 0;
-        for(double&x: all_runs){
-        	x /= number;
-        	mean += x;
-        	sd += x*x;
-        }
-        mean /= runs;
-        sd = sqrt(sd/runs - mean*mean);
+		double mean=0, sd = 0;
+		for(double&x: all_runs){
+			x /= number;
+			mean += x;
+			sd += x*x;
+		}
+		mean /= runs;
+		sd = sqrt(sd/runs - mean*mean);
 
-        char runs_plural = (runs>1)?'s':'\0';
-        char number_plural = (number>1)?'s':'\0';
-        cout<< format_time(mean, precision)
-        	<< " \u00B1 "
-        	<< format_time(sd, precision)
-        	<< " per loop (mean \u00B1 std. dev. of " << runs
-        	<< " run" << runs_plural << ", " << number << " loop"
-        	<< number_plural << " each)";
+		char runs_plural = (runs>1)?'s':'\0';
+		char number_plural = (number>1)?'s':'\0';
+		cout<< format_time(mean, precision)
+			<< " \u00B1 "
+			<< format_time(sd, precision)
+			<< " per loop (mean \u00B1 std. dev. of " << runs
+			<< " run" << runs_plural << ", " << number << " loop"
+			<< number_plural << " each)";
 	}
 }
